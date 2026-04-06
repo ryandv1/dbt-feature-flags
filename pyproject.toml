@@ -10,9 +10,19 @@ homepage = "https://github.com/z3z1ma/dbt-feature-flags"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<4"
-harness-featureflags = ">1,<2"
 dbt-core = ">=1.0.0,<2"
-launchdarkly-server-sdk = ">=7,<9"
+# SDK dependencies are optional — install only the provider you need:
+#   pip install dbt-feature-flags[fme]
+#   pip install dbt-feature-flags[harness]
+#   pip install dbt-feature-flags[launchdarkly]
+harness-featureflags    = { version = ">1,<2",    optional = true }
+splitio-client          = { version = ">=10,<11", optional = true }
+launchdarkly-server-sdk = { version = ">=7,<9",   optional = true }
+
+[tool.poetry.extras]
+harness      = ["harness-featureflags"]
+fme          = ["splitio-client"]
+launchdarkly = ["launchdarkly-server-sdk"]
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
