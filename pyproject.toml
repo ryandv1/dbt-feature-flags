@@ -14,6 +14,9 @@ harness-featureflags = ">1,<2"
 dbt-core = ">=1.0.0,<2"
 launchdarkly-server-sdk = ">=7,<9"
 
+[tool.poetry.scripts]
+dbt-ff-preflight = "dbt_feature_flags.preflight:cli"
+
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 
