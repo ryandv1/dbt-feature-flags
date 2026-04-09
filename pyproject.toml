@@ -24,6 +24,9 @@ harness      = ["harness-featureflags"]
 fme          = ["splitio-client"]
 launchdarkly = ["launchdarkly-server-sdk"]
 
+[tool.poetry.scripts]
+dbt-ff-preflight = "dbt_feature_flags.preflight:cli"
+
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 
