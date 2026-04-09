@@ -13,6 +13,7 @@
 # limitations under the License.
 from __future__ import annotations
 
+import atexit
 import os
 import typing as t
 from enum import Enum
@@ -101,8 +102,12 @@ def patch_dbt_environment() -> None:
     """Patch dbt's jinja environment to include feature flag functions."""
     from dbt.clients import jinja
 
+    client = _get_client()
     jinja._get_rendered = jinja.get_rendered
-    jinja.get_rendered = get_rendered(jinja._get_rendered, _get_client())
+    jinja.get_rendered = get_rendered(jinja._get_rendered, client)
+
+    if isinstance(client, base.BaseFeatureFlagsClient):
+        atexit.register(client.shutdown)
 
 
 if __name__ == "__main__":

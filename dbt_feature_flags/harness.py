@@ -81,6 +81,13 @@ class HarnessFeatureFlagsClient(BaseFeatureFlagsClient):
         self.client = CfSyncClient(FF_KEY)
         super().__init__()
 
+    def shutdown(self) -> None:
+        """Close the HFF client connection and flush any pending analytics."""
+        try:
+            self.client.destroy()
+        except Exception:
+            pass
+
     def bool_variation(self, flag: str, default: bool = False) -> bool:
         return self.client.bool_variation(flag, target=self.target, default=default)
 

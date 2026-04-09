@@ -59,6 +59,16 @@ class BaseFeatureFlagsClient(abc.ABC):
             "JSON feature flags are not implemented for this driver"
         )
 
+    def shutdown(self) -> None:
+        """Flush queued data and cleanly close the SDK client on process exit.
+
+        Called automatically via atexit when patch_dbt_environment() initialises
+        a real provider.  Override in provider subclasses that need to flush
+        impressions or events before the process exits.  The default
+        implementation is a no-op so that providers which register their own
+        atexit handlers (e.g. FME, LaunchDarkly) are unaffected.
+        """
+
 
 def validate(types: t.Tuple[t.Type[t.Any], ...]):
     def _validate(v, flag_name, func_name):
